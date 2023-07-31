@@ -82,7 +82,7 @@ return {
 
     -- (Optional) Configure lua language server for neovim
     lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
-    lspconfig.ruby_ls.setup({})
+    -- lspconfig.ruby_ls.setup({})
     lspconfig.solargraph.setup({})
 
     lsp.setup()
@@ -90,6 +90,9 @@ return {
     local cmp = require('cmp')
 
     cmp.setup({
+      window = {
+        completion = cmp.config.window.bordered(),
+      },
       mapping = {
         ['<CR>'] = cmp.mapping.confirm({ select = false }),
       },
