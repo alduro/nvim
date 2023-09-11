@@ -1,14 +1,22 @@
 return {
-  'zbirenbaum/copilot-cmp',
-  event = 'InsertEnter',
-  dependencies = { 'zbirenbaum/copilot.lua' },
+  "zbirenbaum/copilot.lua",
+  cmd = "Copilot",
+  event = "InsertEnter",
   config = function()
-    vim.defer_fn(function()
-      require('copilot').setup {
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      } -- https://github.com/zbirenbaum/copilot.lua/blob/master/README.md#setup-and-configuration
-      require('copilot_cmp').setup() -- https://github.com/zbirenbaum/copilot-cmp/blob/master/README.md#configuration
-    end, 100)
+    require("copilot").setup({
+      suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        debounce = 75,
+        keymap = {
+          accept = "<TAB>",
+          accept_word = false,
+          accept_line = false,
+          next = "<C-l>",
+          prev = "<C-h>",
+          dismiss = "<C-]>",
+        },
+      },
+    })
   end,
 }

@@ -86,23 +86,5 @@ return {
     lspconfig.solargraph.setup({})
 
     lsp.setup()
-
-    local cmp = require('cmp')
-
-    cmp.setup({
-      window = {
-        completion = cmp.config.window.bordered(),
-      },
-      mapping = {
-        ['<CR>'] = cmp.mapping.confirm({ select = false }),
-      },
-      sources = {
-        { name = 'path' },
-        { name = 'nvim_lsp' },
-        { name = 'copilot' },
-        { name = 'buffer',  keyword_length = 3 },
-        { name = 'luasnip', keyword_length = 2 },
-      }
-    })
   end,
 }
