@@ -19,6 +19,9 @@ return {
             ['<C-d>'] = require('telescope.actions').delete_buffer,
           }, -- n
         },
+        file_ignore_patterns = {
+          "vendor/cache"
+        }
       },
     }
 
