@@ -30,7 +30,6 @@ return {
     { 'L3MON4D3/LuaSnip' },     -- Required
   },
   config = function()
-    -- require('lsp-zero').setup()
     local lspconfig = require('lspconfig')
     local lsp_defaults = lspconfig.util.default_config
 
@@ -102,7 +101,37 @@ return {
     -- lspconfig.ruby_ls.setup({})
     lspconfig.solargraph.setup({})
     lspconfig.gopls.setup({})
-
+    lspconfig.ocamllsp.setup({})
+    lspconfig.pylsp.setup({
+      settings = {
+        pylsp = {
+          plugins = {
+            pycodestyle = {
+              ignore = { 'W391' },
+              maxLineLength = 100
+            }
+          }
+        }
+      }
+    })
+    lspconfig.eslint.setup({
+      on_attach = function(client, bufnr)
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          buffer = bufnr,
+          command = "EslintFixAll",
+        })
+      end,
+    })
+    lspconfig.pylsp.setup({})
     lsp.setup()
+    lsp.format_on_save({
+      format_opts = {
+        async = false,
+        timeout_ms = 10000,
+      },
+      servers = {
+        ['tsserver'] = { 'javascript', 'typescript' },
+      }
+    })
   end,
 }
