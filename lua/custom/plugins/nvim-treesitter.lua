@@ -1,16 +1,16 @@
 return {
   -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
-  dependencies = {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-  },
+  -- dependencies = {
+  --   'nvim-treesitter/nvim-treesitter-textobjects',
+  -- },
   build = ':TSUpdate',
   config = function()
     require('nvim-treesitter.configs').setup {
-      matchup = {
-        enable = true,   -- mandatory, false will disable the whole extension
-        -- [options]
-      },
+      -- matchup = {
+      --   enable = true, -- mandatory, false will disable the whole extension
+      --   -- [options]
+      -- },
       -- Add languages to be installed here that you want installed for treesitter
       ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'ruby', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
 
@@ -35,7 +35,7 @@ return {
       textobjects = {
         select = {
           enable = true,
-          lookahead = true,   -- Automatically jump forward to textobj, similar to targets.vim
+          lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
           keymaps = {
             -- You can use the capture groups defined in textobjects.scm
             ['aa'] = '@parameter.outer',
@@ -48,7 +48,7 @@ return {
         },
         move = {
           enable = true,
-          set_jumps = true,   -- whether to set jumps in the jumplist
+          set_jumps = true, -- whether to set jumps in the jumplist
           goto_next_start = {
             [']m'] = '@function.outer',
             [']]'] = '@class.outer',
@@ -79,4 +79,3 @@ return {
     }
   end,
 }
-
