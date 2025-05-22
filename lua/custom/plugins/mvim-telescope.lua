@@ -20,12 +20,30 @@ return {
           }, -- n
         },
         file_ignore_patterns = {
-          "vendor/cache"
-        }
+          'vendor/cache',
+        },
+      },
+      pickers = {
+        find_files = {
+          theme = 'dropdown',
+        },
+      },
+      extensions = {
+        live_grep_args = {
+          auto_quoting = true, -- enable/disable auto-quoting
+          theme = 'dropdown',
+          -- override default mappings
+          mappings = { -- extend mappings
+            i = {
+              ['<C-k>'] = require('telescope-live-grep-args.actions').quote_prompt(),
+              ['<C-j>'] = require('telescope-live-grep-args.actions').quote_prompt { postfix = ' --iglob ' },
+            },
+          },
+        },
       },
     }
 
-    local builtin = require('telescope.builtin')
+    local builtin = require 'telescope.builtin'
 
     vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
     vim.keymap.set('n', '<leader><space>', builtin.buffers, { desc = '[ ] Find existing buffers' })
