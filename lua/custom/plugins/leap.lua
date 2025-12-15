@@ -1,8 +1,9 @@
 return {
-  "ggandor/leap.nvim",
-  name = "leap",
+  'ggandor/leap.nvim',
+  name = 'leap',
   config = function()
-    require("leap").add_default_mappings()
+    local leap = require 'leap'
+    leap.add_default_mappings = nil
+    leap.add_repeat_mappings = nil
   end,
 }
-

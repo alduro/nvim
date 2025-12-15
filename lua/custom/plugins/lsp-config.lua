@@ -12,8 +12,6 @@ return {
       },
     },
     config = function()
-      local lspconfig = require 'lspconfig'
-
       vim.api.nvim_create_autocmd('LspAttach', {
         desc = 'LSP actions',
         callback = function(event)
@@ -38,81 +36,68 @@ return {
         end,
       })
 
-      -- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-      --
-      -- vim.api.nvim_clear_autocmds({ group = augroup })
-      -- vim.api.nvim_create_autocmd("BufWritePre", {
-      --   group = augroup,
-      --   callback = function()
-      --     print("Formatting")
-      --     vim.lsp.buf.format({ async = false })
-      --   end,
-      -- })
-      --
+      local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+
+      vim.api.nvim_clear_autocmds { group = augroup }
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        group = vim.api.nvim_create_augroup('Format', { clear = true }),
+        callback = function()
+          vim.lsp.buf.format { async = false }
+        end,
+      })
+
       -- (Optional) Configure lua language server for neovim
-      lspconfig.lua_ls.setup {}
-      -- lspconfig.ruby_ls.setup({})
-      lspconfig.solargraph.setup {}
-      lspconfig.gopls.setup {
-        cmd = { 'gopls', 'serve' },
-        settings = {
-          gopls = {
-            codelenses = {
-              generate = false,
-              gc_details = true,
-            },
-            analyses = {
-              unusedparams = true,
-            },
-            staticcheck = true,
-          },
-        },
-      }
-      lspconfig.ocamllsp.setup {}
-      lspconfig.pylsp.setup {
-        pylint = { enabled = true, executable = 'pylint' },
-      }
+      vim.lsp.enable 'lua_ls'
+      vim.lsp.enable 'ruby_lsp'
+      vim.lsp.enable 'solargraph'
+      vim.lsp.enable 'gopls'
+      vim.lsp.enable 'ocamllsp'
+      vim.lsp.enable 'pylsp'
+      vim.lsp.enable 'ts_ls'
+      vim.lsp.enable 'tailwindcss'
 
-      lspconfig.elixirls.setup {
-        cmd = { '/Users/aldonievas/.config/elixir-ls/release/language_server.sh' },
-        flags = {
-          debounce_text_changes = 150,
-        },
-        elixirLS = {
-          dialyzerEnabled = false,
-          fetchDeps = false,
-        },
-      }
-
-      lspconfig.eslint.setup {
+      local base_on_attach = vim.lsp.config.eslint.on_attach
+      vim.lsp.config('eslint', {
         on_attach = function(client, bufnr)
+          if not base_on_attach then
+            return
+          end
+
+          base_on_attach(client, bufnr)
           vim.api.nvim_create_autocmd('BufWritePre', {
             buffer = bufnr,
-            command = 'EslintFixAll',
+            command = 'LspEslintFixAll',
           })
         end,
-      }
+      })
 
-      -- local on_attach = function(client, bufnr)
-      --   -- format on save
-      --   if client.server_capabilities.documentFormattingProvider then
+      -- lspconfig.eslint.setup {
+      --   on_attach = function(client, bufnr)
       --     vim.api.nvim_create_autocmd('BufWritePre', {
-      --       group = vim.api.nvim_create_augroup('Format', { clear = true }),
       --       buffer = bufnr,
-      --       callback = function()
-      --         vim.lsp.buf.formatting_seq_sync()
-      --       end,
+      --       command = 'EslintFixAll',
       --     })
-      --   end
-      -- end
+      --   end,
+      -- }
 
-      -- TypeScript
-      lspconfig.ts_ls.setup {
-        -- on_attach = on_attach,
+      local on_attach = function(client, bufnr)
+        -- format on save
+        if client.server_capabilities.documentFormattingProvider then
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            group = vim.api.nvim_create_augroup('Format', { clear = true }),
+            buffer = bufnr,
+            callback = function()
+              vim.lsp.buf.format { async = true }
+            end,
+          })
+        end
+      end
+
+      vim.lsp.config('ts_ls', {
+        on_attach = on_attach,
         filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'typescript.tsx' },
         cmd = { 'typescript-language-server', '--stdio' },
-      }
-      lspconfig.tailwindcss.setup {}
+      })
     end,
   },
 }

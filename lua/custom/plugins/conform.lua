@@ -7,6 +7,7 @@ return {
         python = { 'isort', 'black' },
         javascript = { 'prettierd', 'prettier' },
         go = { 'goimports', 'gofmt' },
+        json = { 'jq' },
       },
       format_on_save = {
         -- These options will be passed to conform.format()

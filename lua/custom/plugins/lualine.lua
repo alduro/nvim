@@ -9,6 +9,7 @@ return {
     },
     config = function()
       -- require('lsp-progress').setup()
+      require('codex').status()
       require('lualine').setup {
         options = {
           icons_enabled = true,
@@ -30,6 +31,6 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('lsp-progress').setup()
-    end
-  }
+    end,
+  },
 }
