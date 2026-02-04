@@ -1,6 +1,5 @@
 return {
-  'ggandor/leap.nvim',
-  name = 'leap',
+  url = "https://codeberg.org/andyg/leap.nvim",
   config = function()
     local leap = require 'leap'
     leap.add_default_mappings = nil
